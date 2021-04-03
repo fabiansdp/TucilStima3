@@ -1,9 +1,10 @@
 class Graph(object):
     def __init__(self, numOfNodes):
+        self.numOfNodes = numOfNodes
         self.nodes = []
         self.adjacency = [ [ 0 for i in range(numOfNodes) ] for j in range(numOfNodes) ]
 
-    def append(self, node):
+    def addNode(self, node):
         self.nodes.append(node)
 
     def addAdjacency(self, matrix):

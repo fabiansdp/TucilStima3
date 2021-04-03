@@ -13,10 +13,11 @@ def initializeGraph(filename):
     # Init graph
     graph = Graph(numOfNodes)
 
+    # Tambahkan node dari file txt
     for i in range(numOfNodes-1):
         splitString = nodeList[i].split(" ", 2)
         newNode = Node(splitString[0], splitString[1], splitString[2])
-        graph.append(newNode)
+        graph.addNode(newNode)
         adjacencyMatrix[i] = [int(x) for x in fileMatrix[i].split(" ")]
 
     graph.addAdjacency(adjacencyMatrix)
@@ -28,3 +29,4 @@ filename = input("Masukkan filename: ")
 graph = initializeGraph(filename)
 
 graph.printGraph()
+graph.printAdjacency()
