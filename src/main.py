@@ -1,6 +1,8 @@
 from node import Node
 from graph import Graph
-from astar import Astar
+# from astar import Astar
+from flask import Flask, render_template, abort
+app = Flask(__name__)
 
 def initializeGraph(filename):
     # Baca File
@@ -35,15 +37,31 @@ print("Masukkan rute lokasi yang ingin dicari:")
 start = None
 goal = None
 
-while start == None or goal == None:
-    start_node = input("Masukkan lokasi awal: ")
-    start = graph.findNode(start_node)
-    goal_node = input("Masukkan lokasi tujuan: ")
-    goal = graph.findNode(goal_node)
-    if (start == None or start == None):
-        print("Masukkan tujuan lagi! Node tidak ditemukan")
-    print()
+# while start == None or goal == None:
+#     start_node = input("Masukkan lokasi awal: ")
+#     start = graph.findNode(start_node)
+#     goal_node = input("Masukkan lokasi tujuan: ")
+#     goal = graph.findNode(goal_node)
+#     if (start == None or start == None):
+#         print("Masukkan tujuan lagi! Node tidak ditemukan")
+#     print()
 
 # Penghitungan path yang benar
-astar = Astar(graph, start, goal)
-print(astar.haversine(start, goal), "km")
+# astar = Astar(graph, start, goal)
+# print(astar.haversine(start, goal), "km")
+
+# TODO: integration
+@app.route("/")
+def index():
+    return render_template('index.html', schools=graph.nodes)
+
+
+@app.route("/<school_code>")
+def show_school(school_code):
+    school = schools_by_key.get(school_code)
+    if school:
+        return render_template('map.html', school=school)
+    else:
+        abort(404)
+
+app.run(host='localhost', debug=True)
