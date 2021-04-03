@@ -2,18 +2,25 @@ class Graph(object):
     def __init__(self, numOfNodes):
         self.numOfNodes = numOfNodes
         self.nodes = []
-        self.adjacency = [ [ 0 for i in range(numOfNodes) ] for j in range(numOfNodes) ]
 
     def addNode(self, node):
         self.nodes.append(node)
 
-    def addAdjacency(self, matrix):
-        self.adjacency = matrix
-
     def printGraph(self):
+        print("Daftar Node: ")
         for node in self.nodes:
             node.print()
             print()
-    
-    def printAdjacency(self):
-        print(self.adjacency)
+
+    def addNeighbours(self, matrix):
+        for i in range(self.numOfNodes):
+            for j in range(self.numOfNodes):
+                if matrix[i][j] != 0 :
+                    self.nodes[i].addNeighbour(self.nodes[j])
+
+    def findNode(self, name):
+        for node in self.nodes:
+            if (node.getName() == name):
+                return node
+        
+            
