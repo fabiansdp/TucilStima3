@@ -4,10 +4,7 @@ class Node(object):
         self.longitude = longitude
         self.name = name
         self.neighbour = []
-        self.parent = None
         self.f = 0
-        self.g = 0
-        self.h = 0
 
     def getLat(self):
         return self.latitude

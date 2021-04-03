@@ -46,4 +46,13 @@ while start == None or goal == None:
 
 # Penghitungan path yang benar
 astar = Astar(graph, start, goal)
-print(astar.haversine(start, goal), "km")
+came_from, total_cost = astar.solve()
+path = astar.get_path()
+
+for i in range(len(path)):
+    if i == len(path)-1:
+        print(path[i].name)
+    else:
+        print(path[i].name, end=" -> ")
+
+
