@@ -1,6 +1,8 @@
 from node import Node
 from graph import Graph
 from astar import Astar
+# from flask import Flask, render_template, abort
+# app = Flask(__name__)
 
 def initializeGraph(filename):
     # Baca File
@@ -49,10 +51,24 @@ astar = Astar(graph, start, goal)
 came_from, total_cost = astar.solve()
 path = astar.get_path()
 
-for i in range(len(path)):
+for i in range (len(path)):
     if i == len(path)-1:
         print(path[i].name)
     else:
         print(path[i].name, end=" -> ")
+        
+# # TODO: integration
+# @app.route("/")
+# def index():
+#     return render_template('index.html', schools=graph.nodes)
 
 
+# @app.route("/<school_code>")
+# def show_school(school_code):
+#     school = schools_by_key.get(school_code)
+#     if school:
+#         return render_template('map.html', school=school)
+#     else:
+#         abort(404)
+
+# app.run(host='localhost', debug=True)
