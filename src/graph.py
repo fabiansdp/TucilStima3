@@ -20,7 +20,7 @@ class Graph(object):
 
     def findNode(self, name):
         for node in self.nodes:
-            if (node.getName() == name):
+            if (node.name == name):
                 return node
         
             
