@@ -10,7 +10,20 @@
 </head>
 <body>
 <div class="container">
-    <h1>Choose a School</h1>
+    <h1>Search Location</h1>
+    <!-- Dropdown for source TODO: integrate -->
+    <select name="schools" id="schools">
+        {% for school in schools %}
+        <option value="volvo">{{school.name}}</option>
+        {% endfor %}
+    </select>
+    <!-- Dropdown for destination TODO: integrate -->
+    <select name="schools" id="schools">
+        {% for school in schools %}
+        <option value="volvo">{{school.name}}</option>
+        {% endfor %}
+    </select>
+    <!-- Debugging -->
     {% for school in schools %}
     <p><a class="btn btn-primary btn-lg" href="{{school.key}}">{{school.name}}</a></p>
     {% endfor %}
