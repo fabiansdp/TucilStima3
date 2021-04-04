@@ -26,7 +26,15 @@ def index():
 def show_school(school_code):
     school = schools_by_key.get(school_code)
     if school:
-        return render_template('map.html', school=school)
+        return render_template('map.html', school=school, schools=schools)
+    else:
+        abort(404)
+
+@app.route("/<school_code>")
+def show_schools(school_code):
+    school = schools_by_key.get(school_code)
+    if school:
+        return render_template('example.html', school=school, schools=schools)
     else:
         abort(404)
 

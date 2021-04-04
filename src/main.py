@@ -1,8 +1,8 @@
 from node import Node
 from graph import Graph
 from astar import Astar
-# from flask import Flask, render_template, abort
-# app = Flask(__name__)
+from flask import Flask, render_template, abort
+app = Flask(__name__)
 
 def initializeGraph(filename):
     # Baca File
@@ -56,12 +56,21 @@ for i in range (len(path)):
         print(path[i].name)
     else:
         print(path[i].name, end=" -> ")
-        
-# # TODO: integration
+   
+# TODO: integration
 # @app.route("/")
 # def index():
 #     return render_template('index.html', schools=graph.nodes)
 
+@app.route("/")
+def init():
+    spath = path
+    startlat = start.latitude
+    startlong = start.longitude
+    destlat = goal.latitude
+    destlong = goal.longitude
+    return render_template('integrate.html', nodes=graph.nodes, slat=startlat, slong=startlong, 
+    dlat=destlat, dlong=destlong, spath=spath)
 
 # @app.route("/<school_code>")
 # def show_school(school_code):
@@ -71,4 +80,4 @@ for i in range (len(path)):
 #     else:
 #         abort(404)
 
-# app.run(host='localhost', debug=True)
+app.run(host='localhost', debug=True)
