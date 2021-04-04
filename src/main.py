@@ -2,6 +2,7 @@ from node import Node
 from graph import Graph
 from astar import Astar
 from flask import Flask, render_template, abort
+import json
 app = Flask(__name__)
 
 def initializeGraph(filename):
@@ -62,15 +63,38 @@ for i in range (len(path)):
 # def index():
 #     return render_template('index.html', schools=graph.nodes)
 
+name = []
+latitude = []
+longitude = []
+for i in range(len(path)):
+    name.append(path[i].name)
+    latitude.append(path[i].latitude)
+    longitude.append(path[i].longitude)
+
+dictname = dict(enumerate(name))
+dicts = []
+dicts.append(dictname)
+
+dictlat = dict(enumerate(latitude))
+latss = []
+latss.append(dictlat)
+
+dictlong = dict(enumerate(longitude))
+longss = []
+longss.append(dictlong)
+
+print(dicts)
 @app.route("/")
 def init():
-    spath = path
+    solutionpath = json.dumps(dicts)
+    arrayLat = json.dumps(latss)
+    arrayLong = json.dumps(longss)
     startlat = start.latitude
     startlong = start.longitude
     destlat = goal.latitude
     destlong = goal.longitude
     return render_template('integrate.html', nodes=graph.nodes, slat=startlat, slong=startlong, 
-    dlat=destlat, dlong=destlong, spath=spath)
+    dlat=destlat, dlong=destlong, spath=solutionpath, latss=arrayLat, longss=arrayLong)
 
 # @app.route("/<school_code>")
 # def show_school(school_code):

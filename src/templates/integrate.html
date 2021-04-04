@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
         crossorigin="anonymous">
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcw74coYeNlfh7qqfy851C7zPuLa92dgQ&callback=initMap"
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcw74coYeNlfh7qqfy851C7zPuLa92dgQ&libraries=geometry&callback=initMap"
     type="text/javascript"></script>
     <script type="text/javascript">
     function initMap() {
+        const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        let labelIndex = 0;
         var directionsService = new google.maps.DirectionsService;
         var directionsDisplay = new google.maps.DirectionsRenderer;
         var map = new google.maps.Map(document.getElementById('map'), {
@@ -19,21 +21,61 @@
           });
         directionsDisplay.setMap(map);
         
-        addMarker({lat: {{slat}}, lng: {{slong}}});
-        addMarker({lat: {{dlat}}, lng: {{dlong}}});
+        // addMarker({lat: {{slat}}, lng: {{slong}}});
+        // addMarker({lat: {{dlat}}, lng: {{dlong}}});
 
         // add Marker
         function addMarker(coords){
             var marker = new google.maps.Marker({
                 position: coords,
+                label: labels[labelIndex++ % labels.length],
                 map: map
             });
         }
 
+        // add marker on click
         map.addListener("click", (e) => {
             placeMarkerAndPanTo(e.latLng, map);
         });
 
+        // console.log("{{spath}}");
+        var points = JSON.parse('{{spath | safe}}');
+        var lats = JSON.parse('{{latss | safe}}');
+        var longs = JSON.parse('{{longss | safe}}');
+        console.log(Object.keys(lats).length);
+        for(var i = 0; i<Object.keys(lats[0]).length; i++){
+            addMarker({lat: lats[0][i], lng: longs[0][i]});
+        }
+        
+        var coordinateArray = [];
+        for(var i = 0; i<Object.keys(lats[0]).length; i++){
+            coordinateArray.push({
+                lat: lats[0][i],
+                lng: longs[0][i]
+            });
+        }
+
+        const solutionCoordinate = [
+            {lat: {{slat}}, lng: {{slong}}},
+            {lat: {{dlat}}, lng: {{dlong}}},
+        ];
+
+
+        for(var i = 0; i<Object.keys(lats[0]).length-1; i++){
+            var startt = new google.maps.LatLng({lat: lats[0][i], lng: longs[0][i]});
+            var endd = new google.maps.LatLng({lat: lats[0][i+1], lng: longs[0][i+1]});
+            console.log(google.maps.geometry.spherical.computeDistanceBetween(startt, endd))
+        }
+        
+
+        const drawLine = new google.maps.Polyline({
+            path: coordinateArray,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+        });
+        drawLine.setMap(map);
     }
 
     function placeMarkerAndPanTo(latLng, map) {
