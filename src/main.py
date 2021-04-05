@@ -90,6 +90,7 @@ def init():
     startlong = start.longitude
     destlat = goal.latitude
     destlong = goal.longitude
+    sspath = path
     return render_template('integrate.html', 
         nodes=graph.nodes, 
         slat=startlat, 
@@ -98,4 +99,5 @@ def init():
         dlong=destlong, 
         spath=solutionpath, 
         latss=arrayLat, 
-        longss=arrayLong)
+        longss=arrayLong,
+        sspath=sspath)
