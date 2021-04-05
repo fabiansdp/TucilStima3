@@ -29,7 +29,14 @@
                 var marker = new google.maps.Marker({
                     position: coords,
                     label: labels[labelIndex++ % labels.length],
-                    map: map
+                    map: map,
+                });
+            }
+
+            function addNode(coords){
+                var marker = new google.maps.Marker({
+                    position: coords,
+                    map: map,
                 });
             }
 
@@ -38,6 +45,12 @@
                 placeMarkerAndPanTo(e.latLng, map);
             });
 
+            var marklat = {{marklat}};
+            var marklong = {{marklong}};
+            for(var i=0; i<marklat.length; i++){
+                addNode({lat: marklat[i], lng: marklong[i]});
+            }
+
             var points = JSON.parse('{{spath | safe}}');
             var lats = JSON.parse('{{latss | safe}}');
             var longs = JSON.parse('{{longss | safe}}');
@@ -45,7 +58,7 @@
             for(var i = 0; i<Object.keys(lats[0]).length; i++){
                 addMarker({lat: lats[0][i], lng: longs[0][i]});
             }
-            
+
             var coordinateArray = [];
             for(var i = 0; i<Object.keys(lats[0]).length; i++){
                 coordinateArray.push({
@@ -94,6 +107,8 @@
     {% for path in sspath %}
     <h2>{{path.name}}</h2>
     {% endfor %}
+    <h1>Jarak antara simpul asal dan tujuan:</h1>
+    <h2>{{dist}} km</h2>
 </div>
 </body>
 </html>

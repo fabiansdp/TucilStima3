@@ -47,8 +47,9 @@ def main(graph):
     astar = Astar(graph, start, goal)
     came_from, total_cost = astar.solve()
     path = astar.get_path()
+    distance = total_cost[goal]
 
-    return start, goal, path
+    return start, goal, path, distance 
 
 def processPath(path):
     name = []
@@ -73,6 +74,14 @@ def processPath(path):
 
     return dicts, latss, longss
 
+def processGraph(graph):
+    latitude = []
+    longitude = []
+    for i in range(len(graph.nodes)):
+        latitude.append(graph.nodes[i].latitude)
+        longitude.append(graph.nodes[i].longitude)
+    return latitude, longitude
+
 # Inisialisasi Graf
 filename = input("Masukkan filename: ")
 graph = initializeGraph(filename)
@@ -81,8 +90,9 @@ graph.printGraph()
 @app.route("/")
 def init():
     # Solve Astar
-    start, goal, path = main(graph)
+    start, goal, path, distance = main(graph)
     dicts, latss, longss = processPath(path)
+    marklat, marklong = processGraph(graph)
     solutionpath = json.dumps(dicts)
     arrayLat = json.dumps(latss)
     arrayLong = json.dumps(longss)
@@ -91,8 +101,7 @@ def init():
     destlat = goal.latitude
     destlong = goal.longitude
     sspath = path
-    return render_template('integrate.html', 
-        nodes=graph.nodes, 
+    return render_template('integrate.html',  
         slat=startlat, 
         slong=startlong, 
         dlat=destlat, 
@@ -100,4 +109,7 @@ def init():
         spath=solutionpath, 
         latss=arrayLat, 
         longss=arrayLong,
-        sspath=sspath)
+        sspath=sspath,
+        dist = distance,
+        marklat = marklat,
+        marklong = marklong)
