@@ -28,64 +28,61 @@ def initializeGraph(filename):
     
     return graph
 
-# Main Program
+def main(graph):
+    # Input Lokasi
+    print("Masukkan rute lokasi yang ingin dicari:")
+    start = None
+    goal = None
+
+    while start == None or goal == None:
+        start_node = input("Masukkan lokasi awal: ")
+        start = graph.findNode(start_node)
+        goal_node = input("Masukkan lokasi tujuan: ")
+        goal = graph.findNode(goal_node)
+        if (start == None or start == None):
+            print("Masukkan tujuan lagi! Node tidak ditemukan")
+        print()
+
+    # Penghitungan path yang benar
+    astar = Astar(graph, start, goal)
+    came_from, total_cost = astar.solve()
+    path = astar.get_path()
+
+    return start, goal, path
+
+def processPath(path):
+    name = []
+    latitude = []
+    longitude = []
+    for i in range(len(path)):
+        name.append(path[i].name)
+        latitude.append(path[i].latitude)
+        longitude.append(path[i].longitude)
+
+    dictname = dict(enumerate(name))
+    dicts = []
+    dicts.append(dictname)
+
+    dictlat = dict(enumerate(latitude))
+    latss = []
+    latss.append(dictlat)
+
+    dictlong = dict(enumerate(longitude))
+    longss = []
+    longss.append(dictlong)
+
+    return dicts, latss, longss
+
+# Inisialisasi Graf
 filename = input("Masukkan filename: ")
 graph = initializeGraph(filename)
 graph.printGraph()
 
-# Input Lokasi
-print("Masukkan rute lokasi yang ingin dicari:")
-start = None
-goal = None
-
-while start == None or goal == None:
-    start_node = input("Masukkan lokasi awal: ")
-    start = graph.findNode(start_node)
-    goal_node = input("Masukkan lokasi tujuan: ")
-    goal = graph.findNode(goal_node)
-    if (start == None or start == None):
-        print("Masukkan tujuan lagi! Node tidak ditemukan")
-    print()
-
-# Penghitungan path yang benar
-astar = Astar(graph, start, goal)
-came_from, total_cost = astar.solve()
-path = astar.get_path()
-
-for i in range (len(path)):
-    if i == len(path)-1:
-        print(path[i].name)
-    else:
-        print(path[i].name, end=" -> ")
-   
-# TODO: integration
-# @app.route("/")
-# def index():
-#     return render_template('index.html', schools=graph.nodes)
-
-name = []
-latitude = []
-longitude = []
-for i in range(len(path)):
-    name.append(path[i].name)
-    latitude.append(path[i].latitude)
-    longitude.append(path[i].longitude)
-
-dictname = dict(enumerate(name))
-dicts = []
-dicts.append(dictname)
-
-dictlat = dict(enumerate(latitude))
-latss = []
-latss.append(dictlat)
-
-dictlong = dict(enumerate(longitude))
-longss = []
-longss.append(dictlong)
-
-print(dicts)
 @app.route("/")
 def init():
+    # Solve Astar
+    start, goal, path = main(graph)
+    dicts, latss, longss = processPath(path)
     solutionpath = json.dumps(dicts)
     arrayLat = json.dumps(latss)
     arrayLong = json.dumps(longss)
@@ -93,15 +90,12 @@ def init():
     startlong = start.longitude
     destlat = goal.latitude
     destlong = goal.longitude
-    return render_template('integrate.html', nodes=graph.nodes, slat=startlat, slong=startlong, 
-    dlat=destlat, dlong=destlong, spath=solutionpath, latss=arrayLat, longss=arrayLong)
-
-# @app.route("/<school_code>")
-# def show_school(school_code):
-#     school = schools_by_key.get(school_code)
-#     if school:
-#         return render_template('map.html', school=school)
-#     else:
-#         abort(404)
-
-app.run(host='localhost', debug=True)
+    return render_template('integrate.html', 
+        nodes=graph.nodes, 
+        slat=startlat, 
+        slong=startlong, 
+        dlat=destlat, 
+        dlong=destlong, 
+        spath=solutionpath, 
+        latss=arrayLat, 
+        longss=arrayLong)
