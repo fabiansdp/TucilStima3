@@ -1,7 +1,8 @@
+from flask.json import jsonify
 from node import Node
 from graph import Graph
 from astar import Astar
-from flask import Flask, render_template, abort
+from flask import Flask, render_template
 import json
 app = Flask(__name__)
 
@@ -80,12 +81,34 @@ def processGraph(graph):
     for i in range(len(graph.nodes)):
         latitude.append(graph.nodes[i].latitude)
         longitude.append(graph.nodes[i].longitude)
+
     return latitude, longitude
+
+def processNeighbour(graph):
+    listOfDict = []
+    nodes = graph.nodes
+    for i in range(len(nodes)):
+        listOfDict.append({
+            'lat': nodes[i].latitude,
+            'lng': nodes[i].longitude,
+            'neighbour': []
+        })
+        for j in range(len(nodes[i].neighbour)):
+            listOfDict[i]['neighbour'].append({
+                'lat': nodes[i].neighbour[j].latitude,
+                'lng': nodes[i].neighbour[j].longitude
+            })
+    return listOfDict
 
 # Inisialisasi Graf
 filename = input("Masukkan filename: ")
 graph = initializeGraph(filename)
 graph.printGraph()
+
+@app.route("/get-data")
+def getData():
+    listOfDict = processNeighbour(graph)
+    return jsonify(listOfDict = listOfDict)
 
 @app.route("/")
 def init():
@@ -101,6 +124,7 @@ def init():
     destlat = goal.latitude
     destlong = goal.longitude
     sspath = path
+
     return render_template('integrate.html',  
         slat=startlat, 
         slong=startlong, 
