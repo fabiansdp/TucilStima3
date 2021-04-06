@@ -44,8 +44,13 @@ def main(graph):
     # Penghitungan path yang benar
     astar = Astar(graph, start, goal)
     came_from, total_cost = astar.solve()
-    path = astar.get_path()
-    distance = total_cost[goal]
+
+    if (len(came_from) == 0):
+        path = []
+        distance = 0
+    else:
+        path = astar.get_path()
+        distance = total_cost[goal]
 
     return start, goal, path, distance 
 

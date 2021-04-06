@@ -39,6 +39,9 @@ class Astar:
                     self.frontier.insert(neighbour)
                     self.came_from[neighbour] = current
 
+        if (self.goal not in self.came_from):
+            self.came_from = {}
+
         return self.came_from, self.total_cost
     
     def get_path(self):
