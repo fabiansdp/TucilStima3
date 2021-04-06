@@ -6,10 +6,7 @@ from flask import Flask, render_template
 import json
 app = Flask(__name__)
 
-def initializeGraph(filename):
-    # Baca File
-    f = open("test/" + filename)
-
+def initializeGraph(f):
     fileArr = f.read().splitlines()
     numOfNodes = int(fileArr[0])
     nodeList = fileArr[1:numOfNodes+1]
@@ -100,11 +97,21 @@ def processNeighbour(graph):
             })
     return listOfDict
 
-# Inisialisasi Graf
-filename = input("Masukkan filename: ")
-graph = initializeGraph(filename)
+# Main program
+while True:
+    filename = input("Masukkan filename: ")
+    # Baca File
+    try:
+        f = open("test/" + filename)
+    except FileNotFoundError:
+        print("File not found")
+    else:
+        break
+# Inisialiasi Graph
+graph = initializeGraph(f)
 graph.printGraph()
 
+# Flask
 @app.route("/get-data")
 def getData():
     listOfDict = processNeighbour(graph)
@@ -125,7 +132,7 @@ def init():
     destlong = goal.longitude
     sspath = path
 
-    return render_template('integrate.html',  
+    return render_template('map.html',  
         slat=startlat, 
         slong=startlong, 
         dlat=destlat, 
