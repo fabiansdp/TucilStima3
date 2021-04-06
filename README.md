@@ -5,7 +5,9 @@
 * [Kontributor](#kontributor)
 * [Penjelasan](#penjelasan)
 * [Spesifikasi](#spesifikasi)
+* [Requirements](#requirements)
 * [Cara Pengunaan](#cara_penggunaan)
+* [Alur Program](#alur_program)
 
 ## Kontributor
 * Fabian Savero Diaz Pranoto (13519140)
@@ -22,6 +24,7 @@ Algoritma A* (atau A star) dapat digunakan untuk menentukan lintasan terpendek d
 
 ## Requirements
 1. Flask
+
 ## Cara Penggunaan
 Sebaiknya menginstall flask pada virtual environment saja. Untuk membuat virtual environment sebagai berikut:
 ```bash
@@ -41,3 +44,14 @@ Untuk mennyalakan program, masukkan command sebagai berikut:
 export FLASK_APP=src/main.py
 flask run
 ```
+
+## Alur Program
+1. Program akan meminta input file.
+2. Apabila input file sudah benar, akan memunculkan daftar node dan informasinya.
+3. Flask akan berjalan pada http://127.0.0.1:5000/
+4. Jalankan pada browser
+5. Masukkan input lokasi awal dan tujuan
+6. Akan ditampilkan visualisasi pada browser yang sudah dibuka.
+
+## Contoh Visualisasi
+![contoh](./photos/contoh.jpg)
