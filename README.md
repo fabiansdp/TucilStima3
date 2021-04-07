@@ -6,9 +6,9 @@
 * [Penjelasan](#penjelasan)
 * [Spesifikasi](#spesifikasi)
 * [Requirements](#requirements)
-* [Cara Pengunaan](#cara_penggunaan)
-* [Alur Program](#alur_program)
-* [Contoh Visualisasi](#contoh_visualisasi)
+* [Cara Pengunaan](#cara-penggunaan)
+* [Alur Program](#alur-program)
+* [Contoh Visualisasi](#contoh-visualisasi)
 * [Laporan](#laporan)
 
 ## Kontributor
