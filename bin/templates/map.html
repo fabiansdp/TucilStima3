@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>AStar Visualization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous"> -->
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcw74coYeNlfh7qqfy851C7zPuLa92dgQ&libraries=geometry&callback=initMap"
+    type="text/javascript"></script>
+    <script type="text/javascript">
+        //API key: AIzaSyAcw74coYeNlfh7qqfy851C7zPuLa92dgQ
+        window.initMap = function() {
+            const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; //buat beri label ke node solusi
+            var labelIndex = 0;
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: {{slat}}, 
+                    lng: {{slong}}
+                },
+                zoom: 16
+            });
+            directionsDisplay.setMap(map);
+
+            // add Marker for solution
+            function addMarker(coords){
+                var marker = new google.maps.Marker({
+                    position: coords,
+                    label: labels[labelIndex++ % labels.length],
+                    map: map,
+                });
+            }
+
+            // add Marker for graph nodes
+            function addNode(coords){
+                var marker = new google.maps.Marker({
+                    position: coords,
+                    map: map,
+                });
+            }
+
+            var marklat = {{marklat}};
+            var marklong = {{marklong}};
+            for(var i=0; i<marklat.length; i++){
+                addNode({lat: marklat[i], lng: marklong[i]});
+            }
+
+            var points = JSON.parse('{{spath | safe}}');
+            var lats = JSON.parse('{{latss | safe}}');
+            var longs = JSON.parse('{{longss | safe}}');
+
+            for(var i = 0; i<Object.keys(lats[0]).length; i++){
+                addMarker({lat: lats[0][i], lng: longs[0][i]});
+            }
+
+            var graphObj;
+            fetch('get-data')
+            .then(response => response.json())
+            .then(data => graphObj = data)
+            .then(() => {
+                const nodeList = graphObj.listOfDict;
+
+                for (let i = 0; i<nodeList.length; i++) {
+                    for (let j = 0; j<nodeList[i].neighbour.length; j++) {
+                        let arrayPath = [];
+                        arrayPath.push({
+                            lat: parseFloat(nodeList[i].lat),
+                            lng: parseFloat(nodeList[i].lng)
+                        }, {
+                            lat: parseFloat(nodeList[i].neighbour[j].lat),
+                            lng: parseFloat(nodeList[i].neighbour[j].lng)
+                        })
+
+                        //Menggambar Polyline Sisi Graph
+                        var drawEdge = new google.maps.Polyline({
+                            path: arrayPath,
+                            geodesic: true,
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2,
+                        });
+
+                        //Menggambar Polyline Solusi
+                        var drawLine = new google.maps.Polyline({
+                            path: coordinateArray,
+                            strokeColor: "#0859C6",
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2,
+                        });
+
+                        drawEdge.setMap(map);
+                        drawLine.setMap(map);
+                    }
+                }
+            })
+
+            //Isi array berupa latitude longitude dari node yang merupakan solusi
+            var coordinateArray = [];
+            for(var i = 0; i<Object.keys(lats[0]).length; i++){
+                coordinateArray.push({
+                    lat: lats[0][i],
+                    lng: longs[0][i]
+                });
+            }           
+        }
+    </script>
+</head>
+<body class="d-flex h-100 text-center text-white bg-dark">
+<div class="container">
+  <header class="pt-4 pb-2 mb-4 bg-dark text-white">
+      <div>
+        <h1>Visualization</h1>
+      </div>
+    </header>
+    <div class="mb-5 bg-light rounded-3">
+      <div id="map" style="width:100%; height:500px;"></div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <svg class="bd-placeholder-img rounded-circle" width="100" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <h2 class="pt-3">Solution:</h2>
+        {% for path in sspath %}
+        <h3>{{path.name}}</h3>
+        {% endfor %}
+      </div><!-- /.col-lg-4 -->
+      <div class="col-lg-6">
+        <svg class="bd-placeholder-img rounded-circle" width="100" height="100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
+        <h2 class="pt-3">Jarak antara simpul asal dan tujuan:</h2>
+        <h3>{{dist}} km</h3>
+      </div><!-- /.col-lg-4 -->
+        
+    </div><!-- /.row -->
+    
+    
+</div>
+</body>
+</html>

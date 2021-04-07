@@ -9,6 +9,7 @@
 * [Cara Pengunaan](#cara-penggunaan)
 * [Alur Program](#alur-program)
 * [Contoh Visualisasi](#contoh-visualisasi)
+* [Contoh Lintasan Terpendek](#contoh-lintasan-terpendek)
 * [Laporan](#laporan)
 
 ## Kontributor
@@ -115,6 +116,9 @@ Masukkan lokasi tujuan: Simpang Lima
 
 ## Contoh Visualisasi
 ![contoh](./doc/contoh.jpg)
+
+## Contoh Lintasan Terpendek
+![contoh](./doc/lintasanTerpendek.jpg)
 
 ## Laporan
 Laporan dapat diakses [di sini](./doc/Tucil3_13519140.pdf)
