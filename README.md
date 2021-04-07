@@ -112,4 +112,7 @@ Masukkan lokasi tujuan: Simpang Lima
 6. Akan ditampilkan visualisasi pada browser yang sudah dibuka.
 
 ## Contoh Visualisasi
-![contoh](./photos/contoh.jpg)
+![contoh](./doc/contoh.jpg)
+
+## Laporan
+Laporan dapat diakses [di sini](./doc/Tucil3_13519140.pdf)
