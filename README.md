@@ -8,6 +8,8 @@
 * [Requirements](#requirements)
 * [Cara Pengunaan](#cara_penggunaan)
 * [Alur Program](#alur_program)
+* [Contoh Visualisasi](#contoh_visualisasi)
+* [Laporan](#laporan)
 
 ## Kontributor
 * Fabian Savero Diaz Pranoto (13519140)
