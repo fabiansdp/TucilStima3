@@ -39,7 +39,7 @@ Setelah itu baru dapat menginstall flask dengan command sebagai berikut:
 ```bash
 pip install flask
 ```
-Untuk mennyalakan program, masukkan command sebagai berikut:
+Untuk menyalakan program, masukkan command sebagai berikut:
 ```bash
 export FLASK_APP=src/main.py
 flask run
@@ -47,10 +47,68 @@ flask run
 
 ## Alur Program
 1. Program akan meminta input file.
-2. Apabila input file sudah benar, akan memunculkan daftar node dan informasinya.
+```bash
+Masukkan filename:
+```
+2. Apabila input file sudah benar, akan memunculkan daftar node dan informasinya. Contoh:
+```bash
+Daftar Node: 
+Name: Jl. Ahmad Yani
+Latitude: -6.990485
+Longitude: 110.423839
+Neighbours: Jl. Pahlawan, Simpang Lima
+
+Name: Jl. Pahlawan
+Latitude: -6.997269
+Longitude: 110.419265
+Neighbours: Jl. Ahmad Yani, Jl. Imam Barjo, Jl. Veteran, Simpang Lima
+
+Name: Jl. Imam Barjo
+Latitude: -6.993382
+Longitude: 110.42167
+Neighbours: Jl. Pahlawan, Jl. Mentri Supeno
+
+Name: Jl. Veteran
+Latitude: -6.995821
+Longitude: 110.414089
+Neighbours: Jl. Pahlawan, Jl. Dokter Kariadi
+
+Name: Jl. Dokter Kariadi
+Latitude: -6.993414
+Longitude: 110.413746
+Neighbours: Jl. Veteran, Jl. Mentri Supeno
+
+Name: Jl. Mentri Supeno
+Latitude: -6.993265
+Longitude: 110.419242
+Neighbours: Jl. Imam Barjo, Jl. Dokter Kariadi, Jl. Pandanaran II
+
+Name: Jl. Pandanaran II
+Latitude: -6.991625
+Longitude: 110.4201
+Neighbours: Jl. Mentri Supeno, Jl. Pandanaran
+
+Name: Jl. Pandanaran
+Latitude: -6.988792
+Longitude: 110.420099
+Neighbours: Jl. Pandanaran, Simpang Lima
+
+Name: Simpang Lima
+Latitude: -6.989985
+Longitude: 110.422203
+Neighbours: Jl. Ahmad Yani, Jl. Pahlawan, Jl. Pandanaran
+```
 3. Flask akan berjalan pada http://127.0.0.1:5000/
+```bash
+* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+```
 4. Jalankan pada browser
 5. Masukkan input lokasi awal dan tujuan
+```bash
+Masukkan rute lokasi yang ingin dicari:
+Masukkan lokasi awal: Jl. Veteran
+Masukkan lokasi tujuan: Simpang Lima
+```
 6. Akan ditampilkan visualisasi pada browser yang sudah dibuka.
 
 ## Contoh Visualisasi
